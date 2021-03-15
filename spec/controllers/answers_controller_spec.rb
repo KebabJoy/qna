@@ -92,7 +92,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'with invalid attributes' do
       before { patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) } }
 
-      it 'does not change question' do
+      it 'does not change answer' do
         answer.reload
 
         expect(question.body).to eq 'MyText'
@@ -107,7 +107,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer, question: question) }
 
-    it 'deletes the question' do
+    it 'deletes the answer' do
       expect { delete :destroy, params: { question_id: question, id: answer } }.to change(question.answers, :count).by(-1)
     end
 
