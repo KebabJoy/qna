@@ -40,11 +40,11 @@ class AnswersController < ApplicationController
   end
 
   def question
-    @question ||= Question.find(params[:question_id])
+    @question ||= params[:question_id] ? Question.find(params[:question_id]) : Question.new
   end
 
   def answer
-    @answer ||= Answer.find(params[:id])
+    @answer ||= params[:id] ? Answer.find(params[:id]) : question.answers.new
   end
 
   helper_method :question
