@@ -8,10 +8,10 @@ feature 'User can create question', "
 
   given(:user) { create(:user) }
 
-  describe 'Authernticated user' do
+  describe 'Authenticated user-author' do
     background do
       sign_in(user)
-      
+
       visit questions_path
       click_on 'Ask question'
     end
@@ -22,6 +22,7 @@ feature 'User can create question', "
       click_on 'Ask'
 
       expect(page).to have_content 'Your question successfully created'
+      expect(page).to have_content "Author: #{user.email}"
       expect(page).to have_content 'Test question'
       expect(page).to have_content 'text text text'
     end

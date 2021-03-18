@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
 
   def index
     @answers = Answer.all
@@ -12,6 +13,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = question.answers.create(answer_params)
+    @answer.author = current_user
 
     if @answer.save
       redirect_to @answer
