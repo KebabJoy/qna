@@ -2,7 +2,8 @@ p= "Author: #{@question.author.email}"
 h1= @question.title
 p= @question.body
 = render 'shared/errors', resource: @answer
-p= button_to 'Delete Question', question_path(@question), method: :delete
+- if current_user&.author_of?(@question)
+  p= button_to 'Delete Question', question_path(@question), method: :delete
 
 h2= 'Answers:'
 ul

@@ -26,15 +26,11 @@ feature 'Author can delete his question', "
     sign_in(user2)
     visit question_path(question)
 
-    click_on 'Delete Question'
-
-    expect(page).to have_content 'Only author can delete his questions'
+    expect(page).to_not have_selector("input[type=submit][value='Delete Question']")
   end
 
   scenario 'Unauthenticated user deletes a question' do
     visit question_path(question)
-    click_on 'Delete Question'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_selector("input[type=submit][value='Delete Question']")
   end
 end
