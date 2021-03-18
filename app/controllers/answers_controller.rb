@@ -16,9 +16,9 @@ class AnswersController < ApplicationController
     @answer.author = current_user
 
     if @answer.save
-      redirect_to @answer
+      redirect_to question_path(question), notice: 'Your answer successfully created'
     else
-      render :new
+      render 'questions/show'
     end
   end
 
@@ -32,7 +32,7 @@ class AnswersController < ApplicationController
 
   def destroy
     answer.destroy
-    redirect_to question_answers_path(question)
+    redirect_to question_path(question)
   end
 
   private
