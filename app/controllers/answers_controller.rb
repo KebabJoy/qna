@@ -5,7 +5,9 @@ class AnswersController < ApplicationController
     @answers = Answer.all
   end
 
-  def show; end
+  def show
+    answer
+  end
 
   def new; end
 
@@ -31,8 +33,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    answer.destroy
-    redirect_to question_path(question)
+    if current_user.authored_answers.exists?(answer.id)
+      answer.destroy
+      redirect_to question_answers_path(answer.question), notice: 'Answer successfully deleted'
+    else
+      redirect_to question_answers_path(answer.question), notice: 'Only author can delete his answers'
+    end
+
   end
 
   private
