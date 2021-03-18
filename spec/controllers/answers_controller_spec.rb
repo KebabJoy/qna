@@ -5,39 +5,6 @@ RSpec.describe AnswersController, type: :controller do
   let(:answer) { create(:answer, question: question, author: create(:user)) }
   let(:user) { create(:user) }
 
-  describe 'GET #index' do
-    let(:answers) { create_list(:answer, 33, question: question) }
-
-    before { get :index, params: { question_id: question } }
-
-
-    it 'populates an array of all answers' do
-      expect(assigns(:answers)).to match_array(answers)
-    end
-
-    it 'renders index view' do
-      expect(response).to render_template :index
-    end
-  end
-
-  describe 'GET #show' do
-    before { get :show, params: { question_id: question, id: answer } }
-
-    it 'renders show view' do
-      expect(response).to render_template :show
-    end
-  end
-
-  describe 'GET #new' do
-    before { login(user) }
-
-    before { get :new, params: { question_id: question } }
-
-    it 'renders new vies' do
-      expect(response).to render_template :new
-    end
-  end
-
   describe 'GET #edit' do
     before { login(user) }
 
