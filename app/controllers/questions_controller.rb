@@ -33,8 +33,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    question.destroy
-    redirect_to questions_path
+    if current_user.authored_questions.exists?(question.id)
+      question.destroy
+      redirect_to questions_path
+    else
+      redirect_to questions_path, notice: 'Only author can delete his questions'
+    end
   end
 
   private

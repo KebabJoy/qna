@@ -57,9 +57,9 @@ RSpec.describe AnswersController, type: :controller do
           .to change(question.answers, :count).by(1)
       end
 
-      it 'redirects to show view' do
+      it 'redirects to question/show view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) }
-        expect(response).to redirect_to assigns(:answer)
+        expect(response).to redirect_to question_path(question)
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders new view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end
@@ -125,7 +125,7 @@ RSpec.describe AnswersController, type: :controller do
 
     it 'redirects to index' do
       delete :destroy, params: { question_id: question, id: answer }
-      expect(response).to redirect_to question_answers_path(question)
+      expect(response).to redirect_to question_path(question)
     end
   end
 end
