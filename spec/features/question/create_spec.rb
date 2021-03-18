@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can create question', "
+feature 'Author can create question', "
   In order to get answer from a community
   As an authenticated user
   I'd like to be able to ask a question
