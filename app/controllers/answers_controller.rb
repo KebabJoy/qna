@@ -33,13 +33,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.authored_answers.exists?(answer.id)
+    if current_user.author_of?(answer)
       answer.destroy
-      redirect_to question_answers_path(answer.question), notice: 'Answer successfully deleted'
+      flash_options = { notice: 'Answer successfully deleted' }
     else
-      redirect_to question_answers_path(answer.question), notice: 'Only author can delete his answers'
+      flash_options = { notice: 'Only author can delete his answers' }
     end
-
+    redirect_to question_path(answer.question), flash_options
   end
 
   private
