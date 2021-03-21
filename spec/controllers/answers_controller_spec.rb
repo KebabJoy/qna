@@ -65,6 +65,31 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
+  describe 'PATCH #make_best' do
+    context 'Author' do
+      it 'changes the best answer' do
+        login(user)
+
+        answer = create(:answer, question: question, author: user)
+
+        patch :make_best, params: { id: answer }, format: :js
+        answer.reload
+        expect(answer.best).to eq true
+      end
+    end
+
+    context 'Different user' do
+      it 'does not change the best answer' do
+        user2 = create(:user)
+        login(user2)
+
+        answer = create(:answer, question: question, author: user)
+
+        expect { patch :make_best, params: { id: answer }, format: :js }.to_not change(answer, :best)
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     let!(:answer) { create(:answer, question: question, author: user) }
 
