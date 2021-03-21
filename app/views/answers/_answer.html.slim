@@ -1,7 +1,7 @@
 .answer*{  id: "answer-#{answer.id}" }
   p= answer.body
   - if answer.persisted? && current_user&.author_of?(answer)
-    p= button_to 'Delete Answer', answer_path(answer), method: :delete
+    p= button_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
     p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
   = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
