@@ -2,5 +2,5 @@ document.querySelector('.answer-errors').innerHTML = '<%= render 'shared/errors'
 
 <% if @answer.persisted? %>
   document.querySelector('.answers').innerHTML += '<%= j render @answer %>'
-  document.getElementById('answer_body').value = ''
+  $('.new-answer #answer_body').val('')
 <% end %>
