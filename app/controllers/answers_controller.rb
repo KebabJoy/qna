@@ -1,25 +1,16 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
-  def edit; end
-
   def create
     @answer = question.answers.create(answer_params)
     @answer.author = current_user
 
-    if @answer.save
-      redirect_to question_path(question), notice: 'Your answer successfully created'
-    else
-      render 'questions/show'
-    end
+    @answer.save
   end
 
   def update
-    if answer.update(answer_params)
-      redirect_to @answer
-    else
-      render :edit
-    end
+    answer.update(answer_params)
+    @question = answer.question
   end
 
   def destroy
@@ -31,6 +22,7 @@ class AnswersController < ApplicationController
     end
     redirect_to question_path(answer.question), flash_options
   end
+
 
   private
 
