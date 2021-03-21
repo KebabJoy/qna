@@ -10,11 +10,18 @@ class AnswersController < ApplicationController
 
   def update
     answer.update(answer_params)
-    @question = answer.question
   end
 
   def destroy
     answer.destroy if current_user&.author_of?(answer)
+  end
+
+  def make_best
+    question = answer.question
+    question.remove_best_answer if question.has_best_answer?
+    answer.best!
+
+    @answers = question.answers
   end
 
 
