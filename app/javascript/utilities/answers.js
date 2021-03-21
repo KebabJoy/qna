@@ -1,8 +1,15 @@
-document.addEventListener('turbolinks:load', function () {
-  document.querySelector('.edit-answer-link').addEventListener('click', (e) => {
+$(document).on('turbolinks:load', function(){
+  $('.answers').on('click', '.edit-answer-link', function(e){
     e.preventDefault()
 
-    const answerId = e.target.dataset.answerId
-    document.querySelector('form#edit-answer-' + answerId).classList.remove('hidden')
+    const answerId = $(this).data('answerId')
+    const $form = $('form#edit-answer-' + answerId)
+
+    $form.toggle()
+    if($form.is(':visible')){
+      $(this).text('Cancel')
+    } else{
+      $(this).text('Edit')
+    }
   })
 })
