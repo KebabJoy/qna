@@ -6,14 +6,6 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   def has_best_answer?
-    answers.where(best: true).count == 1
-  end
-
-  def remove_best_answer
-    best_answer = answers.find_by(best: true)
-
-    Answer.transaction do
-      best_answer.update!(best: false)
-    end
+    answers.where(best: true).exists?
   end
 end
