@@ -6,24 +6,23 @@ RSpec.describe Answer, type: :model do
 
   it { should validate_presence_of :body }
 
-  describe 'public instance methods' do
-    let(:user) { create(:user) }
-    let(:answer) { create(:answer, question: create(:question), author: user) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question) }
+  let(:answer) { create(:answer, question: question, author: user) }
+  let(:best_answer) { create(:answer, question: question, author: user, best: true) }
 
-    context 'responds to its methods' do
-      it { expect(answer).to respond_to(:best!) }
-    end
 
-    context 'executes methods correctly' do
-      context '#best!' do
-        it "does what it's supposed to..." do
-          expect(answer.best).to eq(false)
+  describe '#best!' do
+    it 'makes an answer best and removes another best answer' do
+      expect(answer.best).to eq(false)
+      expect(best_answer.best).to eq(true)
 
-          answer.best!
+      answer.best!
 
-          expect(answer.best).to eq(true)
-        end
-      end
+      expect(answer.best).to eq(true)
+
+      best_answer.reload
+      expect(best_answer.best).to eq(false)
     end
   end
 

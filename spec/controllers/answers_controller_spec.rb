@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question, author: create(:user)) }
   let(:user) { create(:user) }
+  let(:question) { create(:question, author: user) }
+  let(:answer) { create(:answer, question: question, author: user) }
 
 
   describe 'POST #create' do
@@ -69,8 +69,6 @@ RSpec.describe AnswersController, type: :controller do
     context 'Author' do
       it 'changes the best answer' do
         login(user)
-
-        answer = create(:answer, question: question, author: user)
 
         patch :make_best, params: { id: answer }, format: :js
         answer.reload
