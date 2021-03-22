@@ -9,7 +9,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    answer.update(answer_params)
+    answer.update(answer_params) if current_user&.author_of?(answer)
   end
 
   def destroy
@@ -18,13 +18,10 @@ class AnswersController < ApplicationController
 
   def make_best
     question = answer.question
+    return unless current_user&.author_of?(question)
 
-    if current_user&.author_of?(question)
-      question.remove_best_answer if question.has_best_answer?
-      answer.best!
-
-      @answers = question.answers
-    end
+    answer.best!
+    @answers = question.answers
   end
 
 
