@@ -18,10 +18,13 @@ class AnswersController < ApplicationController
 
   def make_best
     question = answer.question
-    question.remove_best_answer if question.has_best_answer?
-    answer.best!
 
-    @answers = question.answers
+    if current_user&.author_of?(question)
+      question.remove_best_answer if question.has_best_answer?
+      answer.best!
+
+      @answers = question.answers
+    end
   end
 
 
