@@ -18,7 +18,7 @@ class AnswersController < ApplicationController
 
   def make_best
     question = answer.question
-    return unless current_user&.author_of?(question)
+    return head(:forbidden) unless current_user&.author_of?(question)
 
     answer.best!
     @answers = question.answers
