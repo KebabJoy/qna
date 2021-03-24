@@ -1,8 +1,4 @@
-- @questions.each do |question|
-  h3 = question.title
-  p = question.body
-  p = button_to 'Show', question_path(question), method: :get
-  - if current_user&.author_of?(question)
-    p = button_to 'Delete', question_path(question), method: :delete
+.questions
+  =render @questions
 
 p= link_to 'Ask question', new_question_path
