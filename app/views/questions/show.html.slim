@@ -21,4 +21,8 @@ h2= 'Your answer:'
 = form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
     = f.label :body, 'body'
     = f.text_field :body
+
+    = f.label :files
+    = f.file_field :files, multiple: true, direct_upload: true
+
     = f.submit 'Create'
