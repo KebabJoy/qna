@@ -12,6 +12,10 @@ RSpec.describe Question, type: :model do
   let(:answer) { create_list(:answer, 33, question: question, author: user) }
 
 
+  it 'has many attached file' do
+    expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
   describe '#has_best_answer?!' do
     it 'shows if question has best answer' do
       expect(question.has_best_answer?).to eq false
