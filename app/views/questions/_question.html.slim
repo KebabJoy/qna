@@ -1,0 +1,21 @@
+.question*{ id: "question-#{question.id}" }
+  h3 = question.title
+  p = question.body
+
+  p = button_to 'Show', question_path(question), method: :get
+  - if current_user&.author_of?(question)
+    p = button_to 'Delete', question_path(question), method: :delete
+    = link_to 'Edit', '#', data: { question_id: question.id }, class: 'edit-question-link'
+    .question-errors
+      = render 'shared/errors', resource: question
+    = form_with model: question, local: false, html: { id: "edit-question-#{question.id}" }, class: 'hidden' do |f|
+      p= f.label :title
+      = f.text_field :title
+
+      p= f.label :body, 'Your question'
+      = f.text_area :body
+
+      p= f.label :files
+      = f.file_field :files, multiple: true, direct_upload: true
+
+      p= f.submit 'Save'
