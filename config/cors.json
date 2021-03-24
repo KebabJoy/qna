@@ -1,6 +1,6 @@
 [
   {
-    "origin": ["http://localhost:3000"],
+    "origin": ["*"],
     "responseHeader": ["Content-Type", "Content-Md5", "Origin", "X-Requested-With", "Accept", "Authorization"],
     "method": ["PUT", "GET", "HEAD", "DELETE", "OPTIONS"],
     "maxAgeSeconds": 3600
