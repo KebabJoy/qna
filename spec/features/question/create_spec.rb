@@ -41,11 +41,10 @@ feature 'Author can create question', "
 
       attach_file 'Files', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
       click_on 'Ask'
-
+      save_and_open_page
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
-
   end
 
   scenario 'Unauthenticated user tries to ask a question' do

@@ -5,9 +5,19 @@
   p = button_to 'Show', question_path(question), method: :get
   - if current_user&.author_of?(question)
     p = button_to 'Delete', question_path(question), method: :delete
+
     = link_to 'Edit', '#', data: { question_id: question.id }, class: 'edit-question-link'
+
     .question-errors
       = render 'shared/errors', resource: question
+
+    .question-files
+      - if question.files.attached?
+        - question.files.each do |file|
+          .file*{ id: "file-#{file.id}" }
+            p= link_to file.filename.to_s, url_for(file)
+            p= link_to 'Delete file', files_path(file), method: :delete, remote: true
+
     = form_with model: question, local: false, html: { id: "edit-question-#{question.id}" }, class: 'hidden' do |f|
       p= f.label :title
       = f.text_field :title
