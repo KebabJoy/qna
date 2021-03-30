@@ -10,6 +10,8 @@ RSpec.describe Answer, type: :model do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
+  it { should accept_nested_attributes_for :links }
+
   let(:user) { create(:user) }
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question, author: user) }

@@ -10,6 +10,13 @@ p= @question.body
         p= link_to file.filename.to_s, url_for(file)
         p= link_to 'Delete file', files_path(file), method: :delete, remote: true
 
+.links
+  - if question.links.present?
+    p Links:
+    ul
+      - question.links.each do |l|
+        li = link_to l.name, l.url
+
 - if current_user&.author_of?(@question)
   p= button_to 'Delete Question', question_path(@question), method: :delete
 
@@ -28,5 +35,13 @@ h2= 'Your answer:'
 
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+
+    p = f.fields_for :links do |l|
+      p
+        = l.label :name, 'Link name'
+        = l.text_field :name
+      p
+        = l.label :url
+        = l.text_field :url
 
     = f.submit 'Create'
