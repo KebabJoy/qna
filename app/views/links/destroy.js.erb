@@ -1,0 +1,9 @@
+$("#link-<%= @link.id %>").remove();
+
+<% if @linkable.links.count == 0 %>
+  <% if @linkable.is_a?(Answer) %>
+    $(".answers .links").remove();
+  <% else %>
+    $(".question .links").remove();
+  <% end %>
+<% end %>

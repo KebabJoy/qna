@@ -17,8 +17,6 @@ class QuestionsController < ApplicationController
     @question.links.new
   end
 
-  def edit; end
-
   def create
     @question = current_user.authored_questions.new(question_params)
 

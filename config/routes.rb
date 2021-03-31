@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   delete 'files/:id', to: 'files#destroy', as: 'files'
+  delete 'links/:id', to: 'links#destroy', as: 'links'
 
   resources :questions do
     resources :answers, shallow: true do

@@ -12,19 +12,32 @@ feature 'User can add links to answer', "
   given!(:question) { create(:question, author: user) }
   given(:gist_url) { 'https://gist.github.com/KebabJoy/4b62871a905938b11b9d6cb421e48a8f' }
 
-  scenario 'User adds link when creates an answer', js: true do
-    sign_in user
-    visit question_path(question)
+  context 'User adds link when creates an answer' do
+    background do
+      sign_in user
+      visit question_path(question)
 
-    fill_in 'body', with: 'body'
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+      fill_in 'body', with: 'body'
+      fill_in 'Link name', with: 'My gist'
+    end
 
-    click_on 'Create'
+    scenario 'with valid url', js: true do
+      fill_in 'Url', with: gist_url
 
-    within '.answers' do
-      expect(page).to have_link 'My gist', href: gist_url
+      click_on 'Create'
+
+      within '.answers' do
+        expect(page).to have_link 'My gist', href: gist_url
+      end
+    end
+
+    scenario 'with invalid url', js: true do
+      fill_in 'Url', with: 'not a link'
+
+      click_on 'Create'
+
+      expect(page).to_not have_link 'My gist', href: 'not a link'
+      expect(page).to have_content 'Links url is invalid'
     end
   end
-
 end
