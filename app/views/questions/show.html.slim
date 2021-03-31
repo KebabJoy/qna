@@ -1,24 +1,28 @@
-p= "Author: #{@question.author.email}"
-h1= @question.title
-p= @question.body
+.question
+  p= "Author: #{@question.author.email}"
+  h1= @question.title
+  p= @question.body
 
-.question-files
-  - if question.files.attached?
-    h3= "Question files:"
-    - question.files.each do |file|
-      .file*{ id: "file-#{file.id}" }
-        p= link_to file.filename.to_s, url_for(file)
-        p= link_to 'Delete file', files_path(file), method: :delete, remote: true
+  .question-files
+    - if question.files.attached?
+      h3= "Question files:"
+      - question.files.each do |file|
+        .file*{ id: "file-#{file.id}" }
+          p= link_to file.filename.to_s, url_for(file)
+          p= link_to 'Delete file', files_path(file), method: :delete, remote: true
 
-.links
-  - if question.links.present?
-    p Links:
-    ul
-      - question.links.each do |l|
-        li = link_to l.name, l.url
+  .links
+    - if question.links.present?
+      p Links:
+      ul
+        - question.links.each do |l|
+          li*{ id:"link-#{l.id}" }
+            = link_to l.name, l.url
+            - if current_user&.author_of?(l.linkable)
+              = button_to 'Delete link', links_path(l), method: :delete, remote: true
 
-- if current_user&.author_of?(@question)
-  p= button_to 'Delete Question', question_path(@question), method: :delete
+  - if current_user&.author_of?(@question)
+    p= button_to 'Delete Question', question_path(@question), method: :delete
 
 h2= 'Answers:'
 .answers
@@ -36,12 +40,10 @@ h2= 'Your answer:'
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
 
-    p = f.fields_for :links do |l|
-      p
-        = l.label :name, 'Link name'
-        = l.text_field :name
-      p
-        = l.label :url
-        = l.text_field :url
+    p Links:
+    = f.fields_for :links do |link|
+      = render 'shared/links_form', f: link
+    .links
+      = link_to_add_association 'add link', f, :links, partial: 'shared/links_form'
 
     = f.submit 'Create'
