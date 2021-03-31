@@ -70,7 +70,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'changes the best answer' do
         login(user)
 
-        patch :make_best, params: { id: answer }, format: :js
+        patch :make_best, params: { id: answer, badge_id: create(:badge, question: question) }, format: :js
         answer.reload
         expect(answer.best).to eq true
       end

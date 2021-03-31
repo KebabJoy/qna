@@ -13,6 +13,7 @@ feature 'User can choose the best answer', "
   given!(:answers) { create_list(:answer, 33, question: question, author: user)}
   given!(:answer) { create(:answer, question: question, author: user) }
   given!(:best_answer) { create(:answer, question: question, author: user, best: true) }
+  given!(:badge) { create(:badge, question: question) }
 
   describe 'Authenticated user' do
     context 'as author' do

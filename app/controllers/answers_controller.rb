@@ -21,6 +21,7 @@ class AnswersController < ApplicationController
     return head(:forbidden) unless current_user&.author_of?(question)
 
     answer.best!
+    current_user.badges.push(question.badge)
     @answers = question.answers
   end
 
