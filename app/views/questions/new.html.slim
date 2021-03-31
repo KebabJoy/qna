@@ -11,10 +11,21 @@
   p
     = f.label :files
     = f.file_field :files, multiple: true, direct_upload: true
+
   p Links:
   p = f.fields_for :links do |link|
     = render 'shared/links_form', f: link
   .links
     = link_to_add_association 'add link', f, :links, partial: 'shared/links_form'
+
+  p Badge:
+  p
+    = f.fields_for :badge_attributes do |badge|
+      p
+        = badge.label :name, 'Badge name'
+        = badge.text_field :name
+      p
+        = badge.label :img_url
+        = badge.text_field :img_url
   p
     = f.submit 'Ask'

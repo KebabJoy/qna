@@ -3,6 +3,12 @@
   h1= @question.title
   p= @question.body
 
+  #badge
+    - if question.badge.present?
+      p= "You will be awarded with:"
+      p= @badge.name
+      = image_tag @badge.img_url
+
   .question-files
     - if question.files.attached?
       h3= "Question files:"
