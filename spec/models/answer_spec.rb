@@ -16,6 +16,7 @@ RSpec.describe Answer, type: :model do
   let(:question) { create(:question) }
   let(:answer) { create(:answer, question: question, author: user) }
   let(:best_answer) { create(:answer, question: question, author: user, best: true) }
+  let!(:badge) { create(:badge, question: question) }
 
 
   describe '#best!' do

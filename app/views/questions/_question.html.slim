@@ -16,7 +16,7 @@
         - question.files.each do |file|
           .file*{ id: "file-#{file.id}" }
             p= link_to file.filename.to_s, url_for(file)
-            p= link_to 'Delete file', files_path(file), method: :delete, remote: true
+            p= link_to 'Delete file', file_path(file), method: :delete, remote: true
 
     = form_with model: question, local: false, html: { id: "edit-question-#{question.id}" }, class: 'hidden' do |f|
       p= f.label :title

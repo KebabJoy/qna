@@ -18,6 +18,7 @@ class Answer < ApplicationRecord
         best_answer.update!(best: false)
       end
 
+      author.badges.push(question.badge)
       update!(best: true)
     end
   end
