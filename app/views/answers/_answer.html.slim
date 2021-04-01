@@ -7,7 +7,7 @@
         - answer.links.each do |l|
           li*{ id: "link-#{l.id}" }
             = link_to l.name, l.url
-            = button_to 'Delete link', links_path(l), method: :delete, remote: true
+            = button_to 'Delete link', link_path(l), method: :delete, remote: true
 
   - if answer.persisted? && current_user&.author_of?(answer)
     p= button_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
@@ -17,7 +17,7 @@
       - answer.files.each do |file|
         .file*{ id: "file-#{file.id}" }
           p= link_to file.filename.to_s, url_for(file)
-          p= link_to 'Delete file', files_path(file), method: :delete, remote: true
+          p= link_to 'Delete file', file_path(file), method: :delete, remote: true
 
   - if current_user&.author_of?(answer.question)
     p= button_to 'Choose as Best', make_best_answer_path(answer), method: :patch, remote: true

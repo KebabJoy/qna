@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'questions#index'
 
-  delete 'files/:id', to: 'files#destroy', as: 'files'
-  delete 'links/:id', to: 'links#destroy', as: 'links'
+  resources :badges, only: :index
+  resources :files, only: :destroy
+  resources :links, only: :destroy
 
   resources :questions do
     resources :answers, shallow: true do
@@ -13,5 +14,4 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'badges' => 'badges#index'
 end

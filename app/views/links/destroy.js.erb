@@ -1,6 +1,6 @@
 $("#link-<%= @link.id %>").remove();
 
-<% if @linkable.links.count == 0 %>
+<% if @linkable.links.empty? %>
   <% if @linkable.is_a?(Answer) %>
     $(".answers .links").remove();
   <% else %>
