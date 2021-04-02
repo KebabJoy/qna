@@ -1,4 +1,6 @@
 class Answer < ApplicationRecord
+  include Votable
+
   default_scope { order(best: :desc) }
 
   has_many_attached :files

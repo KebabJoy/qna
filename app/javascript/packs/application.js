@@ -12,6 +12,7 @@ import "@nathanvda/cocoon"
 
 require('../utilities/answers')
 require('../utilities/questions')
+require('../utilities/votes')
 
 Rails.start()
 Turbolinks.start()
