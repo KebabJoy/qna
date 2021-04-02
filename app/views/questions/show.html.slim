@@ -39,7 +39,7 @@ h2= 'Your answer:'
 .answer-errors
   = render 'shared/errors', resource: @answer
 
-= form_with model: [@question, @answer], local: false, class: 'new-answer' do |f|
+= form_with model: [@question, @answer], local: false, class: 'new-answer', data: { type: :json } do |f|
     = f.label :body, 'body'
     = f.text_field :body
 
