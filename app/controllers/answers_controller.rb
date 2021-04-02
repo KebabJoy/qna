@@ -5,7 +5,13 @@ class AnswersController < ApplicationController
     @answer = question.answers.create(answer_params)
     @answer.author = current_user
 
-    @answer.save
+    respond_to do |format|
+      if @answer.save
+        format.json { render json: @answer }
+      else
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
