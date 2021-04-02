@@ -1,6 +1,7 @@
 .question*{ id: "question-#{question.id}" }
   h3 = question.title
   p = question.body
+  = render 'votes/vote', votable: question
 
   p = button_to 'Show', question_path(question), method: :get
   - if current_user&.author_of?(question)

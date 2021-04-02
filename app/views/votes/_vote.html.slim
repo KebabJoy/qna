@@ -1,0 +1,23 @@
+.votes*{ id:"vote-#{votable.class.name}-#{votable.id}" }
+  .votes-errors
+
+  .votes-score
+    p= votable.votes_sum
+
+  - if current_user.present? && !current_user.author_of?(votable)
+    .votes-links
+      .upvote
+        = link_to 'Upvote', polymorphic_path(votable, action: 'vote_for'),
+                remote: true,
+                method: :patch,
+                data: { type: :json, id: votable.id, votable_type: votable.class.name }
+      .vote-down
+        = link_to 'Vote down', polymorphic_path(votable, action: 'vote_against'),
+                remote: true,
+                method: :patch,
+                data: { type: :json, id: votable.id, votable_type: votable.class.name }
+      .undo-vote
+        = link_to 'Cancel vote', polymorphic_path(votable, action: 'cancel_vote'),
+                remote: true,
+                method: :delete,
+                data: { type: :json, id: votable.id, votable_type: votable.class.name }

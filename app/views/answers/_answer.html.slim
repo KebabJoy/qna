@@ -1,5 +1,7 @@
 .answer*{  id: "answer-#{answer.id}" }
   p= answer.body
+  = render 'votes/vote', votable: answer
+
   .links
     - if answer.links.present?
       p Links:

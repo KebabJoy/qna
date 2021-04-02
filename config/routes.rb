@@ -6,8 +6,16 @@ Rails.application.routes.draw do
   resources :files, only: :destroy
   resources :links, only: :destroy
 
-  resources :questions do
-    resources :answers, shallow: true do
+  concern :votable do
+    member do
+      patch :vote_for
+      patch :vote_against
+      delete :cancel_vote
+    end
+  end
+
+  resources :questions, concerns: %i[votable] do
+    resources :answers, concerns: %i[votable], shallow: true do
       member do
         patch :make_best
       end
