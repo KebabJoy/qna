@@ -17,3 +17,5 @@ require('../utilities/votes')
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+
