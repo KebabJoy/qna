@@ -6,9 +6,17 @@ module Voted
 
     respond_to do |format|
       if votable.save
-        format.json { render json: votable.votes_sum }
+        format.json do
+          render json: { score: votable.votes_sum,
+                         votable_type: votable.class.name,
+                         votable_id: votable.id }
+        end
       else
-        format.json { render json: votable.errors.full_messages, status: :forbidden }
+        format.json do
+          render json: { errors: votable.errors.full_messages,
+                         votable_type: votable.class.name,
+                         votable_id: votable.id }, status: :forbidden
+        end
       end
     end
   end
@@ -18,9 +26,17 @@ module Voted
 
     respond_to do |format|
       if votable.save
-        format.json { render json: votable.votes_sum }
+        format.json do
+          render json: { score: votable.votes_sum,
+                         votable_type: votable.class.name,
+                         votable_id: votable.id }
+        end
       else
-        format.json { render json: votable.errors.full_messages, status: :forbidden }
+        format.json do
+          render json: { errors: votable.errors.full_messages,
+                         votable_type: votable.class.name,
+                         votable_id: votable.id }, status: :forbidden
+        end
       end
     end
   end
@@ -29,7 +45,11 @@ module Voted
     votable.undo_vote(current_user)
 
     respond_to do |format|
-      format.json { render json: votable.votes_sum }
+      format.json do
+        render json: { score: votable.votes_sum,
+                       votable_type: votable.class.name,
+                       votable_id: votable.id }
+      end
     end
   end
 

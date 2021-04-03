@@ -10,14 +10,14 @@
         = link_to 'Upvote', polymorphic_path(votable, action: 'vote_for'),
                 remote: true,
                 method: :patch,
-                data: { type: :json, id: votable.id, votable_type: votable.class.name }
+                data: { type: :json }
       .vote-down
         = link_to 'Vote down', polymorphic_path(votable, action: 'vote_against'),
                 remote: true,
                 method: :patch,
-                data: { type: :json, id: votable.id, votable_type: votable.class.name }
+                data: { type: :json }
       .undo-vote
         = link_to 'Cancel vote', polymorphic_path(votable, action: 'cancel_vote'),
                 remote: true,
                 method: :delete,
-                data: { type: :json, id: votable.id, votable_type: votable.class.name }
+                data: { type: :json }
