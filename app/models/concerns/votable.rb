@@ -11,12 +11,12 @@ module Votable
 
   def upvote(user)
     delete_previous_vote(user) if voted?(user)
-    votes.create(value: 1, user: user, votable: self)
+    votes.create(value: 1, user: user)
   end
 
   def vote_down(user)
     delete_previous_vote(user) if voted?(user)
-    votes.create(value: -1, user: user, votable: self)
+    votes.create(value: -1, user: user)
   end
 
   def undo_vote(user)
@@ -26,7 +26,7 @@ module Votable
   private
 
   def voted?(user)
-    votes.where(user: user).count == 1
+    votes.where(user: user).exists?
   end
 
   def delete_previous_vote(user)
