@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
+  after_action :publish_question, only: %i[create]
+
   include Voted
 
   def index
@@ -48,6 +50,25 @@ class QuestionsController < ApplicationController
 
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+  end
+
+  def publish_question
+    return if @question.errors.any?
+
+    ActionCable.server.broadcast('questions', render_question)
+  end
+
+  def render_question
+    QuestionsController.renderer.instance_variable_set(:@env, { 'HTTP_HOST' => 'localhost:3000',
+                                                                'HTTPS' => 'OFF',
+                                                                'REQUEST_METHOD' => 'GET',
+                                                                'SCRIPT_NAME' => '',
+                                                                'warden' => warden })
+
+    QuestionsController.render(
+      partial: 'questions/question',
+      locals: { question: @question }
+    )
   end
 
   helper_method :question
