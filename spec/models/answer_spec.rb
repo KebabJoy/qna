@@ -6,6 +6,7 @@ RSpec.describe Answer, type: :model do
   it_behaves_like 'votable'
 
   it { should have_many(:votes).dependent(:destroy) }
+  it { should have_many(:comments).dependent(:destroy) }
 
   it { should belong_to :question }
   it { should belong_to(:author).with_foreign_key(:author_id) }
