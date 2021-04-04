@@ -8,6 +8,7 @@ class AnswersController < ApplicationController
   def create
     @answer = question.answers.create(answer_params)
     @answer.author = current_user
+    @comment = Comment.new
 
     @answer.save
   end

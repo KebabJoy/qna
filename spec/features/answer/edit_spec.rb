@@ -35,7 +35,6 @@ feature 'User can edit his answer', "
 
           expect(page).to_not have_content answer.body
           expect(page).to have_content 'edited answer'
-          expect(page).to_not have_css('input[type="text"]')
         end
       end
 

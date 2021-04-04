@@ -4,7 +4,7 @@ $(document).on('turbolinks:load', function() {
   if (gon.question_id) {
     consumer.subscriptions.create({ channel: "AnswersChannel", question_id: gon.question_id }, {
       connected(){
-        console.log('Connected!')
+        console.log('ANSWERS CHANNEL CONNECTED!')
       },
 
       received(data) {

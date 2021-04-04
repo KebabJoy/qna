@@ -2,7 +2,7 @@
   p= answer.body
   = render 'votes/vote', votable: answer
 
-  .comments-wrapper
+  .comments-wrapper*{id: "commentable-#{answer.id}"}
     p="Комментарии:"
     .comments
       =render answer.comments
