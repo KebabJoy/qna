@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :gon_question_id
+  before_action :set_comment
 
   after_action :publish_question, only: %i[create]
 
@@ -17,11 +18,9 @@ class QuestionsController < ApplicationController
     @answer.links.new
     @answers = question.answers
     @badge = question.badge
-    @comment = Comment.new
   end
 
   def new
-    @question = Question.new
     @question.links.new
   end
 
@@ -30,6 +29,7 @@ class QuestionsController < ApplicationController
 
     if @question.save
       redirect_to @question, notice: 'Your question successfully created'
+      @comment = Comment.new
     else
       render :new
     end
@@ -53,6 +53,10 @@ class QuestionsController < ApplicationController
 
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+  end
+
+  def set_comment
+    @comment = Comment.new
   end
 
   def publish_question
