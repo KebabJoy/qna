@@ -1,0 +1,6 @@
+document.querySelector('.comment-errors').innerHTML = '<%= render 'shared/errors', resource: @comment %>'
+
+<% if @comment.persisted? %>
+  document.querySelector('.comments').innerHTML += '<%= j render @comment %>'
+  $('.new-comment #comment_body').val('')
+<% end %>

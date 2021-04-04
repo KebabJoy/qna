@@ -3,6 +3,11 @@
   p = question.body
   = render 'votes/vote', votable: question
 
+  .comments-wrapper
+    .comments
+      =render question.comments
+    =render 'comments/form', commentable: question, comment: @comment
+
   p = button_to 'Show', question_path(question), method: :get
   - if current_user&.author_of?(question)
     p = button_to 'Delete', question_path(question), method: :delete

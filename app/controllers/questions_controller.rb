@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+    @comment = Comment.new
   end
 
   def show
@@ -16,6 +17,7 @@ class QuestionsController < ApplicationController
     @answer.links.new
     @answers = question.answers
     @badge = question.badge
+    @comment = Comment.new
   end
 
   def new
