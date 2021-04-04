@@ -1,7 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :gon_question_id
-  before_action :set_comment
 
   after_action :publish_question, only: %i[create]
 
@@ -53,10 +52,6 @@ class QuestionsController < ApplicationController
 
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
-  end
-
-  def set_comment
-    @comment = Comment.new
   end
 
   def publish_question
