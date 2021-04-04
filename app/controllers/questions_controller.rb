@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  before_action :gon_question_id
 
   after_action :publish_question, only: %i[create]
 
@@ -69,6 +70,10 @@ class QuestionsController < ApplicationController
       partial: 'questions/question',
       locals: { question: @question }
     )
+  end
+
+  def gon_question_id
+    gon.question_id = question.id
   end
 
   helper_method :question
