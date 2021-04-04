@@ -1,6 +1,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
+  after_action :publish_answer, only: :create
+
   include Voted
 
   def create
@@ -28,6 +30,12 @@ class AnswersController < ApplicationController
 
 
   private
+
+  def publish_answer
+    return if answer.errors.any?
+
+    ActionCable.server.broadcast("question_#{question.id}/answers", answer)
+  end
 
   def answer_params
     params.require(:answer).permit(:body, files: [], links_attributes: %i[name url])
