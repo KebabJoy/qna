@@ -27,6 +27,10 @@ class Ability
     can :update, [Question, Answer], author_id: @user.id
     can :destroy, [Question, Answer], author_id: @user.id
 
+    can %i[vote_for vote_against cancel_vote], [Question, Answer] do |votable|
+      !@user.author_of?(votable)
+    end
+
     
   end
 end
