@@ -1,12 +1,14 @@
 .answer*{  id: "answer-#{answer.id}" }
   p= answer.body
-  = render 'votes/vote', votable: answer
+  - if %i[vote_for vote_against cancel_vote].any? { |action| can? action, answer }
+    = render 'votes/vote', votable: answer
 
   .comments-wrapper*{id: "commentable-#{answer.id}"}
     p="Комментарии:"
     .comments
       =render answer.comments
-    =render 'comments/form', commentable: answer, comment: @comment
+    -if can? :create, Comment
+      =render 'comments/form', commentable: answer, comment: @comment
 
   .links
     - if answer.links.present?
@@ -15,11 +17,14 @@
         - answer.links.each do |l|
           li*{ id: "link-#{l.id}" }
             = link_to l.name, l.url
-            = button_to 'Delete link', link_path(l), method: :delete, remote: true
+            -if can? :destroy, l
+              = button_to 'Delete link', link_path(l), method: :delete, remote: true
 
-  - if answer.persisted? && current_user&.author_of?(answer)
-    p= button_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
-    p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+  - if answer.persisted?
+    -if can? :destroy, answer
+      p= button_to 'Delete Answer', answer_path(answer), method: :delete, remote: true
+    -if can? :update, answer
+      p= link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
     - if answer.files.attached?
       - answer.files.each do |file|
@@ -27,7 +32,7 @@
           p= link_to file.filename.to_s, url_for(file)
           p= link_to 'Delete file', file_path(file), method: :delete, remote: true
 
-  - if current_user&.author_of?(answer.question)
+  - if can? :make_best, answer
     p= button_to 'Choose as Best', make_best_answer_path(answer), method: :patch, remote: true
 
   = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|

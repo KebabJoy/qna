@@ -31,6 +31,12 @@ class Ability
       !@user.author_of?(votable)
     end
 
-    
+    can :make_best, Answer do |answer|
+      @user.author_of?(answer.question)
+    end
+
+    can :destroy, Link do |link|
+      @user.author_of?(link.linkable)
+    end
   end
 end
