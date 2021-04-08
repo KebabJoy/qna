@@ -50,7 +50,7 @@ feature 'Author can create question', "
   scenario 'Unauthenticated user tries to ask a question' do
     visit questions_path
 
-    expect(page).to have_link 'Ask question'
+    expect(page).to_not have_link 'Ask question'
   end
 
   fcontext 'multiple sessions', js: true do

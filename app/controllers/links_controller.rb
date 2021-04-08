@@ -3,6 +3,8 @@ class LinksController < ApplicationController
 
   def destroy
     @link = Link.find(params[:id])
+    authorize! :destroy, @link
+
     @linkable = @link.linkable
 
     if current_user.author_of?(@linkable)
