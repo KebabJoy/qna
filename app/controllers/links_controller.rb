@@ -7,10 +7,6 @@ class LinksController < ApplicationController
 
     @linkable = @link.linkable
 
-    if current_user.author_of?(@linkable)
-      @link.destroy
-    else
-      head :forbidden
-    end
+    @link.destroy
   end
 end
