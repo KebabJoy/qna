@@ -37,17 +37,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params) if current_user&.author_of?(question)
+    question.update(question_params)
   end
 
   def destroy
-    if current_user.author_of?(question)
-      question.destroy
-      flash_options = { notice: 'Question destroyed successfully' }
-    else
-      flash_options = { notice: 'Only author can delete his questions' }
-    end
-    redirect_to questions_path, flash_options
+    question.destroy
+    redirect_to questions_path, notice: 'Question destroyed successfully'
   end
 
   private

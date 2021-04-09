@@ -53,8 +53,9 @@ describe Ability do
       it { should_not be_able_to :vote_against, authored_answer }
       it { should be_able_to :vote_against, not_authored_answer }
 
-      it { should_not be_able_to :cancel_vote, authored_answer }
-      it { should be_able_to :cancel_vote, not_authored_answer }
+      let(:vote) { create(:vote, votable: not_authored_answer, user: user) }
+      it { should be_able_to :cancel_vote, vote.votable }
+      it { should_not be_able_to :cancel_vote, not_authored_answer }
     end
 
     context 'vote question' do
@@ -64,8 +65,9 @@ describe Ability do
       it { should_not be_able_to :vote_against, authored_question }
       it { should be_able_to :vote_against, not_authored_question }
 
-      it { should_not be_able_to :cancel_vote, authored_question }
-      it { should be_able_to :cancel_vote, not_authored_question }
+      let(:vote) { create(:vote, votable: not_authored_question, user: user) }
+      it { should be_able_to :cancel_vote, vote.votable }
+      it { should_not be_able_to :cancel_vote, not_authored_question }
     end
 
     it { should be_able_to :make_best, create(:answer, question: authored_question, author: other) }
@@ -76,6 +78,5 @@ describe Ability do
 
     it { should_not be_able_to :destroy, create(:link, linkable: not_authored_answer) }
     it { should_not be_able_to :destroy, create(:link, linkable: not_authored_answer) }
-
   end
 end

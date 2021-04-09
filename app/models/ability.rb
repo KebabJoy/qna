@@ -24,11 +24,14 @@ class Ability
   def user_abilities
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], author_id: @user.id
-    can :destroy, [Question, Answer], author_id: @user.id
+    can %i[destroy update], [Question, Answer], author_id: @user.id
 
-    can %i[vote_for vote_against cancel_vote], [Question, Answer] do |votable|
+    can %i[vote_for vote_against], [Question, Answer] do |votable|
       !@user.author_of?(votable)
+    end
+
+    can :cancel_vote, [Question, Answer] do |votable|
+      votable.votes.where(user: @user).exists?
     end
 
     can :make_best, Answer do |answer|

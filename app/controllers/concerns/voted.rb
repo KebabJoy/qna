@@ -2,6 +2,7 @@ module Voted
   extend ActiveSupport::Concern
 
   def vote_for
+    authorize! :vote_for, votable
     votable.upvote(current_user)
 
     respond_to do |format|
@@ -22,6 +23,7 @@ module Voted
   end
 
   def vote_against
+    authorize! :vote_against, votable
     votable.vote_down(current_user)
 
     respond_to do |format|
@@ -42,6 +44,8 @@ module Voted
   end
 
   def cancel_vote
+    authorize! :cancel_vote, votable
+
     votable.undo_vote(current_user)
 
     respond_to do |format|
