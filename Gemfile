@@ -24,8 +24,8 @@ gem 'jbuilder', '~> 2.7'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-gem 'google-cloud-storage', '~> 1.8', require: false
 gem 'cancancan'
+gem 'google-cloud-storage', '~> 1.8', require: false
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
@@ -35,6 +35,7 @@ gem 'devise'
 gem 'gon'
 gem 'jquery-rails'
 gem 'slim-rails'
+gem 'doorkeeper'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
