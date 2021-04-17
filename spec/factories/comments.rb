@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :comment do
-    body { "MyString" }
+    body { 'MyString' }
+    author { create(:user) }
   end
 
   trait :invalid do
