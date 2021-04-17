@@ -28,14 +28,16 @@ gem 'cancancan'
 gem 'google-cloud-storage', '~> 1.8', require: false
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'active_model_serializers', '~> 0.10'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bootstrap', '~> 5.0.0.beta2'
 gem 'cocoon'
 gem 'devise'
+gem 'doorkeeper'
 gem 'gon'
 gem 'jquery-rails'
+gem 'oj'
 gem 'slim-rails'
-gem 'doorkeeper'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
