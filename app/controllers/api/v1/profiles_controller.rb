@@ -3,9 +3,10 @@
 module Api
   module V1
     class ProfilesController < Api::V1::BaseController
-      before_action :doorkeeper_authorize!
+
 
       def me
+        authorize! :me, User
         render json: current_resource_owner
       end
     end
