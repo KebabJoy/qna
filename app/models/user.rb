@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy, as: :votable
   has_many :badges
 
+  scope :all_except, ->(user) { where('id != ?', user.id) }
+
 
   def author_of?(resource)
     resource.author_id == id
