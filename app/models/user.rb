@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :votes, dependent: :destroy, as: :votable
   has_many :badges
 
+
   def author_of?(resource)
     resource.author_id == id
   end
