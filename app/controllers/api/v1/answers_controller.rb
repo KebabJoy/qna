@@ -2,7 +2,7 @@ module Api
   module V1
     class AnswersController < Api::V1::BaseController
       before_action :set_question, only: %i[index create]
-      before_action :set_answer, only: %i[show update]
+      before_action :set_answer, only: %i[show update destroy]
 
       authorize_resource
 
@@ -31,6 +31,10 @@ module Api
         else
           head :precondition_failed
         end
+      end
+
+      def destroy
+        @answer.destroy
       end
 
       private
