@@ -136,7 +136,7 @@ describe 'Answers API', type: :request do
     let(:method) { :patch }
     let(:api_path) { "/api/v1/answers/#{answer.id}" }
 
-    it_behaves_like "API Authorizable"
+    it_behaves_like 'API Authorizable'
 
     context 'authorized' do
       context 'author' do
@@ -155,7 +155,7 @@ describe 'Answers API', type: :request do
         end
 
         context 'with invalid attributes' do
-          it "doesn't edits the question" do
+          it "doesn't edit the question" do
             do_request(method, api_path, params: invalid_attributes, headers: headers)
             answer.reload
             expect(answer.body).to_not eq invalid_attributes[:answer][:body]
@@ -187,5 +187,43 @@ describe 'Answers API', type: :request do
     end
   end
 
+  describe 'DELETE /api/v1/answers/:id' do
+    let(:access_token) { create(:access_token) }
+    let(:answer) { create(:answer, author_id: access_token.resource_owner_id) }
+    let(:method) { :delete }
+    let(:api_path) { "/api/v1/answers/#{answer.id}" }
 
+
+    it_behaves_like 'API Authorizable'
+
+    context 'authorized' do
+      context 'author' do
+        it 'deletes the answer' do
+          expect do
+            do_request(method, api_path, params: { access_token: access_token.token }, headers: headers)
+          end.to change(answer.author.authored_answers, :count).by(-1)
+        end
+
+        it 'returns status 200' do
+          do_request(method, api_path, params: { access_token: access_token.token }, headers: headers)
+          expect(response).to be_successful
+        end
+      end
+
+      context 'not author' do
+        let(:answer) { create(:answer) }
+
+        it "doesn't delete the answer" do
+          expect do
+            do_request(method, api_path, params: { access_token: access_token.token }, headers: headers)
+          end.to_not change(answer.author.authored_answers, :count)
+        end
+
+        it 'returns 403 status' do
+          do_request(method, api_path, params: { access_token: access_token.token }, headers: headers)
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
+  end
 end
