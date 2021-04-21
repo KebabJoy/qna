@@ -26,4 +26,10 @@ class Answer < ApplicationRecord
       update!(best: true)
     end
   end
+
+  private
+
+  def author_notification
+    NewAnswerNotificationJob.perform_later(question, self)
+  end
 end

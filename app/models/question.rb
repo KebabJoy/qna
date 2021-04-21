@@ -19,6 +19,8 @@ class Question < ApplicationRecord
 
   after_create :calculate_reputation
 
+  scope :recent_questions, -> { where('created_at > ?', 1.day.ago) }
+
   def has_best_answer?
     answers.where(best: true).exists?
   end
