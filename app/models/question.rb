@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Question < ApplicationRecord
   include Votable
 
@@ -15,7 +17,15 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
+  after_create :calculate_reputation
+
   def has_best_answer?
     answers.where(best: true).exists?
+  end
+
+  private
+
+  def calculate_reputation
+    ReputationJob.perform_later(self)
   end
 end
