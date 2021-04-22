@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:badges) }
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:nullify) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
 
   describe 'public instance methods' do

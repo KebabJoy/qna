@@ -8,7 +8,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_many :comments, dependent: :destroy, as: :commentable
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
   has_one :badge, dependent: :destroy
 
   has_many_attached :files
@@ -19,6 +19,7 @@ class Question < ApplicationRecord
   validates :title, :body, presence: true
 
   after_create :calculate_reputation
+  after_create :subscribe_author
 
   scope :recent_questions, -> { where('created_at > ?', 1.day.ago) }
 
@@ -30,5 +31,9 @@ class Question < ApplicationRecord
 
   def calculate_reputation
     ReputationJob.perform_later(self)
+  end
+
+  def subscribe_author
+    Subscription.create(question: self, user: author)
   end
 end

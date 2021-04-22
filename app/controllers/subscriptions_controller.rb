@@ -4,7 +4,9 @@ class SubscriptionsController < ApplicationController
   authorize_resource
 
   def create
-    @subscription = Subscription.create(question: question, user: current_user)
+    @question ||= Question.find(params[:question_id])
+
+    @subscription = Subscription.create(question: @question, user: current_user)
 
     redirect_to @subscription.question
   end
@@ -16,12 +18,4 @@ class SubscriptionsController < ApplicationController
 
     redirect_to @subscription.question
   end
-
-  private
-
-  def question
-    @question ||= Question.find(params[:question_id])
-  end
-
-  helper_method :question
 end

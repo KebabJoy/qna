@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :comments, class_name: 'Comment', foreign_key: 'user_id', dependent: :nullify
   has_many :votes, dependent: :destroy, as: :votable
   has_many :badges
-  has_many :subscriptions
+  has_many :subscriptions, dependent: :destroy
 
   scope :all_except, ->(user) { where('id != ?', user.id) }
 
