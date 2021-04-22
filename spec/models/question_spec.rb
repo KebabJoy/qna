@@ -8,6 +8,7 @@ RSpec.describe Question, type: :model do
   it { should have_many(:links).dependent(:destroy) }
   it { should have_many(:votes).dependent(:destroy) }
   it { should have_many(:comments).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
   it { should have_one(:badge).dependent(:destroy) }
   
   it { should belong_to(:author).with_foreign_key(:author_id) }
@@ -33,6 +34,15 @@ RSpec.describe Question, type: :model do
       create(:answer, best: true, question: question, author: user)
 
       expect(question.has_best_answer?).to eq true
+    end
+  end
+
+  describe 'reputation' do
+    let(:question) { build(:question) }
+
+    it 'calls ReputationJob' do
+      expect(ReputationJob).to receive(:perform_later).with(question)
+      question.save!
     end
   end
 end

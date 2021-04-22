@@ -15,6 +15,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  after_create :author_notification
+
   def best!
     transaction do
       if question.has_best_answer?
@@ -25,5 +27,11 @@ class Answer < ApplicationRecord
       author.badges.push(question.badge)
       update!(best: true)
     end
+  end
+
+  private
+
+  def author_notification
+    NewAnswerNotificationJob.perform_later(question, self)
   end
 end
