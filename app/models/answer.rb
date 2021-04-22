@@ -15,6 +15,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  after_create :author_notification
+
   def best!
     transaction do
       if question.has_best_answer?

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :badges, only: :index
   resources :files, only: :destroy
   resources :links, only: :destroy
+  resources :subscriptions, only: %i[create destroy]
 
   concern :votable do
     member do

@@ -8,6 +8,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
   has_many :comments, dependent: :destroy, as: :commentable
+  has_many :subscriptions
   has_one :badge, dependent: :destroy
 
   has_many_attached :files
